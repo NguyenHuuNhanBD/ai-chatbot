@@ -24,7 +24,7 @@ function PureMessages() {
               sapiente, quisquam error, labore, officia amet dolore inventore cumque animi. Aut in minima aliquid?
             </p>
           ))}
-          {/* <div className='min-h-[24px] min-w-[24px] shrink-0 border border-[red]' ref={messagesEndRef} /> */}
+          <div className='min-h-6 min-w-6 shrink-0' ref={messagesEndRef} />
         </div>
       </div>
       <button

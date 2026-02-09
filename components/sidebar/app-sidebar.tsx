@@ -15,7 +15,7 @@ import {
 import cookieHelper from '@/lib/helpers/cookie.helper'
 
 export function AppSidebar() {
-  const isLogin = cookieHelper.getAccessToken()
+  const isLogin = true
   return (
     <Sidebar>
       {/* Header */}
@@ -33,7 +33,7 @@ export function AppSidebar() {
       </SidebarContent>
 
       {/* Footer */}
-      <SidebarFooter>{!isLogin && <SidebarUserNav />}</SidebarFooter>
+      <SidebarFooter>{isLogin && <SidebarUserNav />}</SidebarFooter>
     </Sidebar>
   )
 }
