@@ -16,3 +16,8 @@ export type SidebarMenuT = {
     url: string
   }[]
 }
+
+export type PaginationParams = {
+  offset: number
+  limit: number
+}

@@ -3,6 +3,7 @@ export const API_URL = {
     LOGIN: 'login'
   },
   CHAT: {
-    LIST: 'chat/list'
+    LIST: 'chat/list',
+    LIST_HISTORY: 'chat/history'
   }
 }

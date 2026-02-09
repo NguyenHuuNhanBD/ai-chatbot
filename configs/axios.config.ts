@@ -7,7 +7,7 @@ import cookieHelper from '@/lib/helpers/cookie.helper'
 let hasShow401Toast = false
 
 const configs: AxiosRequestConfig = {
-  baseURL: process.env.BASE_URL_API,
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
   headers: {
     'Content-Type': 'application/json',
     'Cache-Control': 'no-cache',

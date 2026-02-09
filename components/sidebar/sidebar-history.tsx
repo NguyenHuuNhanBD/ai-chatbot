@@ -1,5 +1,6 @@
 import { useState } from 'react'
 
+import { useInfiniteQuery } from '@tanstack/react-query'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import InfiniteScroll from 'react-infinite-scroll-component'
@@ -26,12 +27,39 @@ import {
   useSidebar
 } from '@/components/ui/sidebar'
 import { Skeleton } from '@/components/ui/skeleton'
+import { QUERY_KEY } from '@/lib/constants'
+import { PaginationParams } from '@/lib/types'
+import { ChatService } from '@/services/chat.service'
 
+const LIMIT = 20
 const SidebarHistory = () => {
   const { openMobile, isMobile, setOpenMobile } = useSidebar()
   const params = useParams()
   const currentId = params.id
-
+  // const {
+  //   data: infiniteData,
+  //   isFetchingNextPage,
+  //   isLoading,
+  //   fetchNextPage,
+  //   hasNextPage
+  // } = useInfiniteQuery({
+  //   queryKey: [QUERY_KEY.CHAT.LIST_HISTORY, currentId],
+  //   queryFn: async ({ pageParam = 0 }) => {
+  //     const paramsConverted: PaginationParams = {
+  //       offset: pageParam * LIMIT,
+  //       limit: LIMIT
+  //     }
+  //     const res = await ChatService.getListChatHistory(paramsConverted)
+  //     return {
+  //       data: res?.data?.chats || []
+  //     }
+  //   },
+  //   getNextPageParam: (lastPage, allPages) => {
+  //     return lastPage.data.length === LIMIT ? allPages.length : undefined
+  //   },
+  //   initialPageParam: 0
+  // })
+  // const dataListChatHistory = infiniteData?.pages.flatMap((page) => page.data) || []
   const [data, setData] = useState(() =>
     Array.from({ length: 20 }, (_, i) => ({
       id: `fake-id-${i}`,

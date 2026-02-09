@@ -22,12 +22,10 @@ export default function Page() {
   })
   const [input, setInput] = useState('')
 
-  // console.log(messages)
-
   return (
     <section className='overscroll-behavior-contain flex flex-col h-dvh min-w-0 touch-pan-y bg-background'>
       <ChatHeader />
-      {/* <Messages /> */}
+      <Messages />
       <section className='sticky bottom-0 z-1 mx-auto flex w-full max-w-4xl gap-2 border-t-0 bg-background mt-auto'>
         <Input placeholder='Send a message' />
       </section>

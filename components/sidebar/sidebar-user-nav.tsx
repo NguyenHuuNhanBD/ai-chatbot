@@ -20,12 +20,12 @@ export function SidebarUserNav() {
   const router = useRouter()
   const { setTheme, resolvedTheme } = useTheme()
   const isGuest = true
-
+  const status: string = 'done'
   return (
     <SidebarMenu>
       <SidebarMenuItem>
         <DropdownMenu>
-          {/* <DropdownMenuTrigger asChild>
+          <DropdownMenuTrigger asChild>
             {status === 'loading' ? (
               <SidebarMenuButton className='h-10 justify-between bg-background data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground'>
                 <div className='flex flex-row gap-2'>
@@ -48,7 +48,7 @@ export function SidebarUserNav() {
                 <ChevronUp className='ml-auto' />
               </SidebarMenuButton>
             )}
-          </DropdownMenuTrigger> */}
+          </DropdownMenuTrigger>
           <DropdownMenuContent className='w-(--radix-popper-anchor-width)' data-testid='user-nav-menu' side='top'>
             <DropdownMenuItem
               className='cursor-pointer'
