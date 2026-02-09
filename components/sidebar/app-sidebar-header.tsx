@@ -5,7 +5,6 @@ import { useState } from 'react'
 import { PlusIcon, TrashIcon } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useSWRConfig } from 'swr'
 
 import {
   AlertDialog,
