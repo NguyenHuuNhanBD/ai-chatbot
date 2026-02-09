@@ -5,7 +5,6 @@ import { useState } from 'react'
 import { PlusIcon, TrashIcon } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useSWRConfig } from 'swr'
 
 import {
   AlertDialog,
@@ -20,13 +19,12 @@ import {
 import { Button } from '@/components/ui/button'
 import { useSidebar } from '@/components/ui/sidebar'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
-import cookieHelper from '@/lib/helpers/cookie.helper'
 
 const AppSidebarHeader = () => {
   const router = useRouter()
   const { setOpenMobile } = useSidebar()
   const [showDeleteAllDialog, setShowDeleteAllDialog] = useState(false)
-  const isLogin = cookieHelper.getAccessToken()
+  const isLogin = true
   return (
     <>
       <section className='flex items-center justify-between'>
