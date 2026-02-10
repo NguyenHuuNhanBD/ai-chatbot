@@ -23,7 +23,6 @@ const MultimodalInput = () => {
   const [images, setImages] = useState<PreviewFile[]>([])
   const [openModels, setOpenModels] = useState(false)
   const [selectedModel, setSelectedModel] = useState<ChatModel>(chatModels[0])
-  // chọn file
   const handleSelectFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files
     if (!files) return

@@ -11,11 +11,9 @@ import { formHelper } from '@/lib/helpers'
 import { LoginFormSchema, getLoginSchema } from '@/lib/helpers/schemas.helper'
 import { LoginPayload } from '@/lib/types'
 import { AuthService } from '@/services/auth.service'
-import useGlobalLoaderStore from '@/stores/global-loader'
 
 export default function LoginPage() {
   const formSchema = getLoginSchema()
-  const { startLoading, stopLoading } = useGlobalLoaderStore()
   const form = useForm<LoginFormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: formHelper.getDefaultValuesLogin(),
@@ -44,14 +42,10 @@ export default function LoginPage() {
   }
 
   return (
-    <section className='flex h-dvh w-screen items-start justify-center bg-background pt-12 md:items-center md:pt-0'>
-      <section className='flex w-full max-w-md flex-col gap-12 overflow-hidden rounded-2xl'>
-        <AuthForm form={form} onSubmit={handleSubmit} authType='LOGIN'>
-          <SubmitButton isLoading={loginMutation.isPending} isDisabled={!form.formState.isValid}>
-            Sign in
-          </SubmitButton>
-        </AuthForm>
-      </section>
-    </section>
+    <AuthForm form={form} onSubmit={handleSubmit} authType='LOGIN'>
+      <SubmitButton isLoading={loginMutation.isPending} isDisabled={!form.formState.isValid}>
+        Sign in
+      </SubmitButton>
+    </AuthForm>
   )
 }

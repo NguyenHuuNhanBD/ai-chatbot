@@ -42,14 +42,10 @@ export default function RegisterPage() {
   }
 
   return (
-    <section className='flex h-dvh w-screen items-start justify-center bg-background pt-12 md:items-center md:pt-0'>
-      <div className='flex w-full max-w-md flex-col gap-12 overflow-hidden rounded-2xl'>
-        <AuthForm form={form} onSubmit={handleSubmit} authType='REGISTER'>
-          <SubmitButton isLoading={loginMutation.isPending} isDisabled={!form.formState.isValid}>
-            Sign up
-          </SubmitButton>
-        </AuthForm>
-      </div>
-    </section>
+    <AuthForm form={form} onSubmit={handleSubmit} authType='REGISTER'>
+      <SubmitButton isLoading={loginMutation.isPending} isDisabled={!form.formState.isValid}>
+        Sign up
+      </SubmitButton>
+    </AuthForm>
   )
 }
