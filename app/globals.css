@@ -133,7 +133,21 @@
     @apply bg-background text-foreground;
   }
 }
+@utility text-balance {
+  text-wrap: balance;
+}
 
+@utility -webkit-overflow-scrolling-touch {
+  -webkit-overflow-scrolling: touch;
+}
+
+@utility touch-pan-y {
+  touch-action: pan-y;
+}
+
+@utility overscroll-behavior-contain {
+  overscroll-behavior: contain;
+}
 /* minimal scrollbar styling */
 ::-webkit-scrollbar {
   width: 6px;

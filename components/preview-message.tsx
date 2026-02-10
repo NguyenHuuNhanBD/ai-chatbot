@@ -1,0 +1,73 @@
+import React, { useState } from 'react'
+
+import { MessageContent } from '@/components/elements/message'
+import { Response } from '@/components/elements/response'
+import { SparklesIcon } from '@/components/icons'
+import { ChatMessage } from '@/lib/types'
+import { cn, sanitizeText } from '@/lib/utils'
+
+type PreviewMessageProps = {
+  message: ChatMessage
+}
+const PreviewMessage = ({ message }: PreviewMessageProps) => {
+  const [mode, setMode] = useState<'view' | 'edit'>('view')
+
+  return (
+    <section className='group/message fade-in w-full animate-in duration-200' data-role={message.role}>
+      <section
+        className={cn('flex w-full items-start gap-2 md:gap-3', {
+          'justify-end': message.role === 'user' && mode !== 'edit',
+          'justify-start': message.role === 'assistant'
+        })}
+      >
+        {message.role === 'assistant' && (
+          <div className='-mt-1 flex size-8 shrink-0 items-center justify-center rounded-full bg-background ring-1 ring-border'>
+            <SparklesIcon size={14} />
+          </div>
+        )}
+        <section
+          className={cn('flex flex-col', {
+            'gap-2 md:gap-4': message.parts?.some((p) => p.type === 'text' && p.text?.trim()),
+            'w-full':
+              (message.role === 'assistant' &&
+                (message.parts?.some((p) => p.type === 'text' && p.text?.trim()) ||
+                  message.parts?.some((p) => p.type.startsWith('tool-')))) ||
+              mode === 'edit',
+            'max-w-[calc(100%-2.5rem)] sm:max-w-[min(fit-content,80%)]': message.role === 'user' && mode !== 'edit'
+          })}
+        >
+          {message.parts.map((part, index) => {
+            const { type } = part
+            const key = `message-${message.id}-part-${index}`
+            if (type === 'text') {
+              if (mode === 'view') {
+                return (
+                  <div key={key}>
+                    <MessageContent
+                      className={cn({
+                        'wrap-break-word w-fit rounded-2xl px-3 py-2 text-right text-white': message.role === 'user',
+                        'bg-transparent px-0 py-0 text-left': message.role === 'assistant'
+                      })}
+                      data-testid='message-content'
+                      style={message.role === 'user' ? { backgroundColor: '#006cff' } : undefined}
+                    >
+                      <Response>{sanitizeText(part.text)}</Response>
+                    </MessageContent>
+                  </div>
+                )
+              }
+            }
+
+            return (
+              <pre key={index} className='text-xs opacity-70'>
+                Unsupported part
+              </pre>
+            )
+          })}
+        </section>
+      </section>
+    </section>
+  )
+}
+
+export default PreviewMessage

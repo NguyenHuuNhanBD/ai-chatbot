@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { ArrowDownIcon } from 'lucide-react'
 
 import { Greeting } from '@/components/greeting'
+import PreviewMessage from '@/components/preview-message'
 import { useMessages } from '@/hooks'
 import { ChatMessage } from '@/lib/types'
 
@@ -22,36 +23,12 @@ function PureMessages({ messages }: PureMessagesProps) {
     <div className='relative flex-1'>
       <div className='absolute inset-0 touch-pan-y overflow-y-auto' ref={messagesContainerRef}>
         <div className='mx-auto flex min-w-0 max-w-4xl flex-col gap-4 px-2 py-4 md:gap-6 md:px-4'>
-          <Greeting />
-          {/* {Array.from({ length: 20 }).map((_, index) => (
-            <p key={index}>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta sed iste quam at quo pariatur dolorem
-              sapiente, quisquam error, labore, officia amet dolore inventore cumque animi. Aut in minima aliquid?
-            </p>
-          ))} */}
-          {messages.map((msg) => (
-            <div key={msg.id} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-              <div
-                className={`
-                max-w-[75%] rounded-[8px] px-4 py-3 text-sm whitespace-pre-wrap
-                ${msg.role === 'user' ? 'bg-blue-500 text-white' : 'bg-muted'}
-              `}
-              >
-                {msg.parts.map((part, i) => {
-                  if (part.type === 'text') {
-                    return <p key={i}>{part.text}</p>
-                  }
+          {messages.length === 0 && <Greeting />}
 
-                  // fallback nếu sau này có image/tool/etc
-                  return (
-                    <pre key={i} className='text-xs opacity-70'>
-                      Unsupported part
-                    </pre>
-                  )
-                })}
-              </div>
-            </div>
+          {messages.map((message) => (
+            <PreviewMessage key={message.id} message={message} />
           ))}
+
           <div className='min-h-6 min-w-6 shrink-0' ref={messagesEndRef} />
         </div>
       </div>

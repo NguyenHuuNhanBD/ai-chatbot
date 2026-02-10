@@ -87,7 +87,12 @@ async function ChatPage({ params }: { params: Promise<{ id: string }> }) {
     {
       id: '9',
       role: 'user',
-      parts: [{ type: 'text', text: 'Khi nào nên dùng CSR?' }]
+      parts: [
+        {
+          type: 'text',
+          text: 'Khi nào nên dùng CSR? Khi nào nên dùng CSR? Khi nào nên dùng CSR?Khi nào nên dùng CSR?Khi nào nên dùng CSR?Khi nào nên dùng CSR?Khi nào nên dùng CSR?Khi nào nên dùng CSR?Khi nào nên dùng CSR?'
+        }
+      ]
     },
     {
       id: '10',
