@@ -7,12 +7,10 @@ import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
-  SidebarGroup,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuItem
 } from '@/components/ui/sidebar'
-import cookieHelper from '@/lib/helpers/cookie.helper'
 
 export function AppSidebar() {
   const isLogin = true
