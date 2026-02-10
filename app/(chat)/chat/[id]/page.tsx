@@ -1,35 +1,35 @@
-'use client'
+import { Suspense } from 'react'
 
-import { useMemo, useRef, useState } from 'react'
+import { cookies } from 'next/headers'
 
-import { useChat } from '@ai-sdk/react'
-import { DefaultChatTransport } from 'ai'
+import Chat from '@/components/chat'
+import { DEFAULT_CHAT_MODEL } from '@/lib/constants'
+import { convertToUIMessages } from '@/lib/utils'
+import { ChatService } from '@/services'
 
-import ChatHeader from '@/components/chat-header'
-import { Messages } from '@/components/messages'
-import MultimodalInput from '@/components/multimodal-input'
-import { Input } from '@/components/ui/input'
-import { WeatherCard } from '@/components/weather-card'
-
-export default function Page() {
-  const [selectedModel, setSelectedModel] = useState('google/gemini-2.5-flash-lite')
-  const { messages, sendMessage, status } = useChat({
-    transport: new DefaultChatTransport({
-      api: `${process.env.NEXT_PUBLIC_API_URL}/chat`,
-      body: {
-        model: selectedModel
-      }
-    })
-  })
-  const [input, setInput] = useState('')
+export default function Page(props: { params: Promise<{ id: string }> }) {
+  return (
+    <Suspense fallback={<section className='flex h-dvh' />}>
+      <ChatPage params={props.params} />
+    </Suspense>
+  )
+}
+async function ChatPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
+  const messageFromDb = await ChatService.getListMessageByChatId({ id })
+  const uiMessages = convertToUIMessages(messageFromDb?.data ?? [])
+  const cookieStore = await cookies()
+  const chatModelFromCookie = cookieStore.get('chat-model')
 
   return (
-    <section className='overscroll-behavior-contain flex flex-col h-dvh min-w-0 touch-pan-y bg-background'>
-      <ChatHeader />
-      <Messages />
-      <section className='sticky bottom-0 z-1 mx-auto flex w-full max-w-4xl gap-2 border-t-0 bg-background mt-auto mb-4'>
-        <MultimodalInput />
-      </section>
-    </section>
+    <Chat
+      autoResume={true}
+      id={id}
+      initialChatModel={!chatModelFromCookie ? DEFAULT_CHAT_MODEL : chatModelFromCookie.value}
+      initialMessages={uiMessages}
+      initialVisibilityType='private'
+      isReadonly={false}
+      key={id}
+    />
   )
 }
