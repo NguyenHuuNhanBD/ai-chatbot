@@ -1,40 +1,41 @@
 'use client'
 
-import React, { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import { CheckIcon, SearchIcon } from 'lucide-react'
-import Image from 'next/image'
 
+import ModelSelectorLogo from '@/components/model-selector-logo'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
-import { modelsByProvider } from '@/lib/constants'
-import { ChatModel } from '@/lib/types'
+import { MODELS_BY_PROVIDER } from '@/lib/constants'
+import cookieHelper from '@/lib/helpers/cookie.helper'
 
 type ModelSelectorProps = {
   openModel: boolean
   onOpenModelChange: (isOpen: boolean) => void
-  selectedModel: ChatModel
-  onSelectModel: (model: ChatModel) => void
+  selectedModelId: string
+  onModelChange: (id: string) => void
 }
 
-const ModelSelector = ({ openModel, onOpenModelChange, selectedModel, onSelectModel }: ModelSelectorProps) => {
+const ModelSelector = ({ openModel, onOpenModelChange, selectedModelId, onModelChange }: ModelSelectorProps) => {
   const [search, setSearch] = useState('')
 
-  const handleSelect = (model: ChatModel) => {
-    onSelectModel(model)
+  const handleSelectedModel = (id: string) => {
+    onModelChange(id)
     onOpenModelChange(false)
+    cookieHelper.setValueIntoKey('chat-model', id)
   }
 
   // ⭐ Filter logic
   const filteredModels = useMemo(() => {
     const keyword = search.trim().toLowerCase()
 
-    if (!keyword) return modelsByProvider
+    if (!keyword) return MODELS_BY_PROVIDER
 
-    const result: typeof modelsByProvider = {}
+    const result: typeof MODELS_BY_PROVIDER = {}
 
-    Object.entries(modelsByProvider).forEach(([provider, models]) => {
-      const filtered = models.filter((m) => `${m.name} ${m.id} ${m.provider}`.toLowerCase().includes(keyword))
+    Object.entries(MODELS_BY_PROVIDER).forEach(([provider, models]) => {
+      const filtered = models.filter((m) => `${m.name} ${m.provider}`.toLowerCase().includes(keyword))
 
       if (filtered.length > 0) {
         result[provider] = filtered
@@ -74,7 +75,6 @@ const ModelSelector = ({ openModel, onOpenModelChange, selectedModel, onSelectMo
               '
             />
           </section>
-
           <DialogTitle className='sr-only' />
           <DialogDescription className='sr-only' />
         </DialogHeader>
@@ -89,12 +89,11 @@ const ModelSelector = ({ openModel, onOpenModelChange, selectedModel, onSelectMo
 
               <article className='flex flex-col'>
                 {models.map((model) => {
-                  const isSelected = selectedModel.id === model.id
-
+                  const isSelected = selectedModelId === model.id
                   return (
                     <section
                       key={model.id}
-                      onClick={() => handleSelect(model)}
+                      onClick={() => handleSelectedModel(model.id)}
                       className='
                         flex items-center justify-between
                         p-1 rounded cursor-pointer
@@ -103,15 +102,7 @@ const ModelSelector = ({ openModel, onOpenModelChange, selectedModel, onSelectMo
                       '
                     >
                       <section className='flex items-center gap-2'>
-                        <Image
-                          alt={`${model.name} logo`}
-                          src={`https://models.dev/logos/${model.provider}.svg`}
-                          width={12}
-                          height={12}
-                          className='size-3 dark:invert'
-                          unoptimized
-                        />
-
+                        <ModelSelectorLogo provider={model.provider} className='size-3 dark:invert' />
                         <p className='text-[14px]'>{model.name}</p>
                       </section>
 

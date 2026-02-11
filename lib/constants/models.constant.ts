@@ -1,8 +1,8 @@
-import { ChatModel } from '@/lib/types'
+import { ChatMessage, ChatModel } from '@/lib/types'
 
-export const DEFAULT_CHAT_MODEL = 'google/gemini-2.5-flash-lite'
+export const DEFAULT_CHAT_MODEL = 'anthropic/claude-haiku-4.5'
 
-export const chatModels: ChatModel[] = [
+export const CHAT_MODELS: ChatModel[] = [
   // Anthropic
   {
     id: 'anthropic/claude-haiku-4.5',
@@ -70,7 +70,7 @@ export const chatModels: ChatModel[] = [
   }
 ]
 // Group models by provider for UI
-export const modelsByProvider = chatModels.reduce(
+export const MODELS_BY_PROVIDER = CHAT_MODELS.reduce(
   (acc, model) => {
     if (!acc[model.provider]) {
       acc[model.provider] = []
@@ -80,3 +80,86 @@ export const modelsByProvider = chatModels.reduce(
   },
   {} as Record<string, ChatModel[]>
 )
+
+export const fakeUiMessage: ChatMessage[] = [
+  {
+    id: '1',
+    role: 'user',
+    parts: [{ type: 'text', text: 'Next.js là gì vậy?' }]
+  },
+  {
+    id: '2',
+    role: 'assistant',
+    parts: [
+      {
+        type: 'text',
+        text: 'Next.js là framework React giúp bạn xây dựng web app production-ready. Nó hỗ trợ routing, SSR, SSG, API routes, tối ưu bundle và nhiều thứ khác.'
+      }
+    ]
+  },
+  {
+    id: '3',
+    role: 'user',
+    parts: [{ type: 'text', text: 'Nó có những kiểu render nào?' }]
+  },
+  {
+    id: '4',
+    role: 'assistant',
+    parts: [
+      {
+        type: 'text',
+        text: 'Next.js có 3 kiểu chính: SSR (Server-side Rendering), SSG (Static Site Generation), và CSR (Client-side Rendering). Ngoài ra App Router còn có Streaming và Server Components.'
+      }
+    ]
+  },
+  {
+    id: '5',
+    role: 'user',
+    parts: [{ type: 'text', text: 'SSR hoạt động như thế nào?' }]
+  },
+  {
+    id: '6',
+    role: 'assistant',
+    parts: [
+      {
+        type: 'text',
+        text: 'SSR render HTML trên server mỗi request. Người dùng nhận được trang hoàn chỉnh nhanh hơn cho SEO, nhưng server sẽ tốn tài nguyên hơn.'
+      }
+    ]
+  },
+  {
+    id: '7',
+    role: 'user',
+    parts: [{ type: 'text', text: 'Còn SSG thì sao?' }]
+  },
+  {
+    id: '8',
+    role: 'assistant',
+    parts: [
+      {
+        type: 'text',
+        text: 'SSG build HTML sẵn tại build time. Trang load cực nhanh vì chỉ serve file tĩnh, phù hợp blog, landing page.'
+      }
+    ]
+  },
+  {
+    id: '9',
+    role: 'user',
+    parts: [
+      {
+        type: 'text',
+        text: 'Khi nào nên dùng CSR? Khi nào nên dùng CSR? Khi nào nên dùng CSR?Khi nào nên dùng CSR?Khi nào nên dùng CSR?Khi nào nên dùng CSR?Khi nào nên dùng CSR?Khi nào nên dùng CSR?Khi nào nên dùng CSR?'
+      }
+    ]
+  },
+  {
+    id: '10',
+    role: 'assistant',
+    parts: [
+      {
+        type: 'text',
+        text: 'CSR phù hợp dashboard hoặc UI cần tương tác nhiều. Browser render sau khi load JS, SEO kém hơn nhưng linh hoạt.'
+      }
+    ]
+  }
+]

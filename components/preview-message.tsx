@@ -13,7 +13,13 @@ const PreviewMessage = ({ message }: PreviewMessageProps) => {
   const [mode, setMode] = useState<'view' | 'edit'>('view')
 
   return (
-    <section className='group/message fade-in w-full animate-in duration-200' data-role={message.role}>
+    <section
+      className={cn(
+        'group/message w-full animate-in duration-400 ease-in-out',
+        message.role === 'assistant' ? 'fade-in slide-in-from-left-15' : 'fade-in slide-in-from-right-15'
+      )}
+      data-role={message.role}
+    >
       <section
         className={cn('flex w-full items-start gap-2 md:gap-3', {
           'justify-end': message.role === 'user' && mode !== 'edit',
