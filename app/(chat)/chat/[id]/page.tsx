@@ -6,7 +6,7 @@ import { notFound, redirect } from 'next/navigation'
 import Chat from '@/components/chat'
 import { DEFAULT_CHAT_MODEL, fakeUiMessage } from '@/lib/constants'
 import { ChatMessage } from '@/lib/types'
-import { convertToUIMessages } from '@/lib/utils'
+import { convertToUIMessages, generateUUID } from '@/lib/utils'
 import { ChatService } from '@/services'
 
 export default function Page(props: { params: Promise<{ id: string }> }) {
@@ -27,9 +27,9 @@ async function ChatPage({ params }: { params: Promise<{ id: string }> }) {
   return (
     <Chat
       autoResume={true}
-      id={chat?.data?.id || '7f8dbe6e-25d5-4535-8f36-030c6cbc14fd'}
+      id={chat?.data?.id || generateUUID()}
       initialChatModel={!chatModelFromCookie ? DEFAULT_CHAT_MODEL : chatModelFromCookie.value}
-      initialMessages={fakeUiMessage}
+      initialMessages={uiMessages}
       initialVisibilityType={chat?.data?.visibility || 'private'}
       isReadonly={false}
       key={id}
